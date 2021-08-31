@@ -9,7 +9,7 @@ import Link from 'next/link';
 type Post = {
     slug: string;
     title: string;
-    excrept: string;
+    excerpt: string;
     updatedAt: string;
 }
 
@@ -24,13 +24,13 @@ export default function Posts({posts}: PostProps) {
             <main className={styles.container}>
                 <div className={styles.posts}>
                     {posts.map(post => (
-                        <Link href={`/posts/${post.slug}`}>
-                            <a key={post.slug}>
+                        <Link key={post.slug} href={`/posts/${post.slug}`}>
+                            <a>
                                 <time>
                                     {post.updatedAt}
                                 </time>
                                 <strong>{post.title}</strong>
-                                <p>{post.excrept}</p>
+                                <p>{post.excerpt}</p>
                             </a>
                         </Link>
                     ))}
@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps = async () => {
         return {
             slug: post.uid,
             title: RichText.asText(post.data.title),
-            excrept: post.data.content.find(content => content.type === 'paragraph')?.text ?? '',
+            excerpt: post.data.content.find(content => content.type === 'paragraph')?.text ?? '',
             updatedAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
                 day: '2-digit',
                 month: 'long',
