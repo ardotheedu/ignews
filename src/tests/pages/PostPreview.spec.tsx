@@ -1,14 +1,13 @@
 import { render, screen } from '@testing-library/react'
-import  Post  from '../../pages/posts/[slug]'
+import  Post, {getStaticProps}  from '../../pages/posts/preview/[slug]'
 import { getSession, useSession } from 'next-auth/client'
 import { mocked } from 'ts-jest/utils'
 import { getServerSideProps } from '../../pages/posts/[slug]'
 import { getPrismicClient } from '../../services/prismic'
 import { useRouter } from 'next/router'
-import { getStaticProps } from '../../pages'
 
 const post = 
-    {slug: 'my-next-post', title: 'My new Post', content: '<p>Post excerpt</p>', updatedAt: '10 de Abril'}
+    {slug: 'my-new-post', title: 'My new Post', content: '<p>Post excerpt</p>', updatedAt: '10 de Abril'}
 
 
 jest.mock('next-auth/client')
@@ -26,26 +25,6 @@ describe('Posts page', () => {
         expect(screen.getByText('My new Post')).toBeInTheDocument()
         expect(screen.getByText('Post excerpt')).toBeInTheDocument()
         expect(screen.getByText("Wanna continue reading?")).toBeInTheDocument()
-    })
-
-    it('redirect user if no subscription is found', async () => {
-        const getSessionMocked = mocked(getSession)
-
-        getSessionMocked.mockResolvedValueOnce({
-            activeSubscription: null,
-        } as any)
-
-        const response = await getServerSideProps({
-            params: { slug: 'my-new-post'}
-        } as any)
-
-        expect(response).toEqual(
-            expect.objectContaining({
-                redirect: expect.objectContaining({
-                    destination: '/',
-                })
-            })
-        )
     })
 
     it('redirects user to full post when user is subscribed', async () => {

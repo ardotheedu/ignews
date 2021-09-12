@@ -6,7 +6,7 @@ import Head from "next/head"
 
 import styles from '../post.module.scss'
 import Link from "next/link"
-import { useRouter } from "next/dist/client/router"
+import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 interface PostPreviewProps {

@@ -9,5 +9,14 @@ module.exports = {
     // Essa opção é para que o jest entendar arquivos de estilização css sass
     moduleNameMapper: {
         "\\.(scss|css|sass)$": "identity-obj-proxy"
-    }
+    },
+    //Configurações coverage
+    collectCoverage: true,
+    collectCoverageFrom: [
+        "src/**/*.tsx",
+        "!src/**/*.spec.tsx",
+        "!src/**/_app.tsx",
+        "!src/**/_document.tsx",
+    ],
+    coverageReporters: ["lcov", "json"]
 };
